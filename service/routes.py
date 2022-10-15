@@ -18,8 +18,12 @@ from . import app
 @app.route("/")
 def index():
     """ Root URL response """
+    app.logger.info("Request for Root URL")
     return (
-        "Reminder: return some useful information in json format about the service here",
+        jsonify(
+            name="Recommendations REST API Service",
+            version="1.0",
+        ),
         status.HTTP_200_OK,
     )
 
