@@ -27,6 +27,27 @@ def index():
         status.HTTP_200_OK,
     )
 
+######################################################################
+# CREATE A RECOMMENDATION
+######################################################################
+@app.route("/recommendations", methods=["POST"])
+def create_recommendations():
+    """
+    Creates a Recommendation
+    This endpoint will create a Recommendation based the data in the body that is posted
+    """
+    app.logger.info("Request to create a recommendation")
+    check_content_type("application/json")
+    recommendation = Recommendation()
+    recommendation.deserialize(request.get_json())
+    recommendation.create()
+    message = recommendation.serialize()
+    location_url = url_for("get_recommendation", recommendation_id=recommendation.id, _external=True)
+
+    app.logger.info("Recommendation with ID [%s] created.", recommendation.id)
+    return jsonify(message), status.HTTP_201_CREATED, {"Location": location_url}
+
+
 
 ######################################################################
 #  U T I L I T Y   F U N C T I O N S
