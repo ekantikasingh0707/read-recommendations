@@ -32,7 +32,7 @@ class Recommendation(db.Model):
     name = db.Column(db.String(63))
     recmmendationId = db.Column(db.Integer, primary_key=True)
     recmmendationName = db.Column(db.String(63))
-    type = db.Column(
+    rectype = db.Column(
         db.Enum(RecommendationType), nullable=False, server_default=(RecommendationType.UPSELL.name)
     )
     number_of_likes = db.Column(db.Integer)
