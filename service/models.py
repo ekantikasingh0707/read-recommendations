@@ -30,15 +30,15 @@ class Recommendation(db.Model):
     # Table Schema
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(63))
-    recmmendationId = db.Column(db.Integer, primary_key=True)
-    recmmendationName = db.Column(db.String(63))
+    recommendationId = db.Column(db.Integer)
+    recommendationName = db.Column(db.String(63))
     type = db.Column(
         db.Enum(RecommendationType), nullable=False, server_default=(RecommendationType.UPSELL.name)
     )
     number_of_likes = db.Column(db.Integer)
 
     def __repr__(self):
-        return f"<Recommendation {self.name} id=[{self.id}] RecommendationId=[{self.recmmendationId}] RecommendationName=[{self.recmmendationName}] RecommendationType=[{self.type}] number_of_likes=[{self.number_of_likes}]>"
+        return f"<Recommendation {self.name} id=[{self.id}] RecommendationId=[{self.recommendationId}] RecommendationName=[{self.recommendationName}] RecommendationType=[{self.type}] number_of_likes=[{self.number_of_likes}]>"
 
     def create(self):
         """
@@ -70,8 +70,8 @@ class Recommendation(db.Model):
         return {
             "id": self.id,
             "name": self.name,
-            "recmmendationId": self.recmmendationId,
-            "recmmendationName": self.recmmendationName,
+            "recommendationId": self.recommendationId,
+            "recommendationName": self.recommendationName,
             "type": self.type.name,
             "number_of_likes": self.number_of_likes
         }
@@ -86,16 +86,16 @@ class Recommendation(db.Model):
         try:
             self.name = data["name"]
             self.number_of_likes = data["number_of_likes"]
-            self.recmmendationId = data["recmmendationId"]
-            self.recmmendationName = data["recmmendationName"]
+            self.recommendationId = data["recommendationId"]
+            self.recommendationName = data["recommendationName"]
             self.type = getattr(RecommendationType, data["type"])
         except AttributeError as error:
             raise DataValidationError("Invalid attribute: " + error.args[0]) from error
         except KeyError as error:
-            raise DataValidationError("Invalid pet: missing " + error.args[0]) from error
+            raise DataValidationError("Invalid Recommendation: missing " + error.args[0]) from error
         except TypeError as error:
             raise DataValidationError(
-                "Invalid pet: body of request contained bad or no data " + str(error)
+                "Invalid Recommendation: body of request contained bad or no data " + str(error)
             ) from error
         return self
 
@@ -111,8 +111,8 @@ class Recommendation(db.Model):
 
     @classmethod
     def all(cls) -> list:
-        """Returns all of the recmmendations in the database"""
-        logger.info("Processing all Pets")
+        """Returns all of the recommendations in the database"""
+        logger.info("Processing all recommendations")
         return cls.query.all()
 
     @classmethod
@@ -127,15 +127,15 @@ class Recommendation(db.Model):
         return cls.query.get(reco_id)
 
     @classmethod
-    def find_or_404(cls, pet_id: int):
+    def find_or_404(cls, recommendation_id: int):
         """Finds a recmmendation by it's ID
         :param reco_id: the id of the recmmendation to find
         :type reco_id: int
         :return: an instance with the reco_id, or 404_NOT_FOUND if not found
         :rtype: recmmendation
         """
-        logger.info("Processing lookup or 404 for id %s ...", pet_id)
-        return cls.query.get_or_404(pet_id)
+        logger.info("Processing lookup or 404 for id %s ...", recommendation_id)
+        return cls.query.get_or_404(recommendation_id)
 
     @classmethod
     def find_by_name(cls, name)-> list:
@@ -152,7 +152,7 @@ class Recommendation(db.Model):
         """Returns all recmmendationModels by their Type
         :param gender: values are ['UPSELL', 'CROSSSELL']
         :type available: enum
-        :return: a collection of recmmendations that are available
+        :return: a collection of recommendations that are available
         :rtype: list
         """
         logger.info("Processing type query for %s ...", type.name)
