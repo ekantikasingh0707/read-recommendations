@@ -22,6 +22,7 @@ class RecommendationType(Enum):
     """Enumeration of valid Recommendation Types"""
     CROSSSELL = 0
     UPSELL = 1
+    ACCESSORY = 2
 
 class Recommendation(db.Model):
     """

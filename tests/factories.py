@@ -19,5 +19,5 @@ class RecommendationFactory(factory.Factory):
     name = factory.Faker("name")
     recommendationId = factory.Sequence(lambda n: n)
     recommendationName = factory.Faker("name")
-    type = FuzzyChoice(choices=[RecommendationType.UPSELL, RecommendationType.CROSSSELL])
+    type = FuzzyChoice(choices=[RecommendationType.UPSELL, RecommendationType.CROSSSELL, RecommendationType.ACCESSORY])
     number_of_likes = factory.Sequence(lambda n:n)
