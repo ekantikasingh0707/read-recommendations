@@ -94,4 +94,4 @@ def check_content_type(content_type):
         rec_name = recommendation.recommendationName
         if not recommendation:
             api.abort(status.HTTP_404_NOT_FOUND, "Recommendation with name '{}' was not found.".format(name))
-        return rec_name, status.HTTP_200_OK
+        return rec_name
