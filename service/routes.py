@@ -76,3 +76,22 @@ def check_content_type(content_type):
         status.HTTP_415_UNSUPPORTED_MEDIA_TYPE,
         f"Content-Type must be {content_type}",
     )
+    
+    
+    #------------------------------------------------------------------
+    # READ A RECOMMENDATION
+    #------------------------------------------------------------------
+    @api.doc('get_recommendations')
+    @api.response(404, 'Recommendation not found')
+    @api.marshal_with(recommendation_model)
+    def getRecName(self, name):
+        """
+        Read a Recommendation
+        This will return a Recommendation based on it's name.
+        """
+        app.logger.info("Request to Read a recommendation with name [%s]", name)
+        recommendation = Recommendation.find(name)
+        rec_name = recommendation.recommendationName
+        if not recommendation:
+            api.abort(status.HTTP_404_NOT_FOUND, "Recommendation with name '{}' was not found.".format(name))
+        return rec_name, status.HTTP_200_OK
