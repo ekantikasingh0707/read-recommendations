@@ -126,3 +126,13 @@ class TestRecommendationServer(TestCase):
         """It should not Create a rec with bad content type"""
         response = self.client.post(BASE_URL, headers={'Content-Type': 'application/xml'})
         self.assertEqual(response.status_code, status.HTTP_415_UNSUPPORTED_MEDIA_TYPE)
+        
+        
+        
+   def test_getRecName(self):
+    recommendation = Recommendation(id=5,
+                                    name="The Intern", recommendationId=15,
+                                    recommendationName="The Internship", type=1, number_of_likes=150)
+
+    recommendation.save()
+    self.assertEqual(getRecName("The Intern"), "The Internship")
