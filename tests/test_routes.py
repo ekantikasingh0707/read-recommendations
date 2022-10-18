@@ -128,7 +128,10 @@ class TestRecommendationServer(TestCase):
         self.assertEqual(response.status_code, status.HTTP_415_UNSUPPORTED_MEDIA_TYPE)
         
         
-        
+ ######################################################################
+    #  TEST READ RECOMMENDATIONS
+ ######################################################################
+    
    def test_getRecName(self):
     recommendation = Recommendation(id=5,
                                     name="The Intern", recommendationId=15,
